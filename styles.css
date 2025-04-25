@@ -548,6 +548,17 @@ body {
     font-size: 20px;
 }
 
+.contact-item a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: var(--accent-color);
+    transform: translateX(5px);
+}
+
 .contact-form {
     display: flex;
     flex-direction: column;
