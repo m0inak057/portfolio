@@ -13,7 +13,8 @@ git add .
 timestamp=$(date "+%Y-%m-%d %H:%M:%S")
 git commit -m "Updated portfolio website - $timestamp"
 
-# Push to main branch
+# Rename branch to main and push
+git branch -M main
 git push -u origin main
 
 echo "Successfully pushed to repository!"
