@@ -1,5 +1,69 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Modal Elements
+    const modal = document.getElementById('education-modal');
+    const modalContent = modal.querySelector('.modal-content');
+    const closeBtn = modal.querySelector('.close-modal');
+    const educationItem = document.getElementById('education-item');
+    const scrollIndicator = modal.querySelector('.scroll-indicator');
+
+    // Open modal
+    educationItem.addEventListener('click', () => {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        checkScroll();
+    });
+
+    // Close modal
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Show/hide scroll indicator based on content height
+    function checkScroll() {
+        const hasScroll = modalContent.scrollHeight > modalContent.clientHeight;
+        const isAtBottom = modalContent.scrollHeight - modalContent.scrollTop <= modalContent.clientHeight + 1;
+        
+        if (hasScroll && !isAtBottom) {
+            scrollIndicator.style.opacity = '1';
+            scrollIndicator.style.display = 'block';
+        } else {
+            scrollIndicator.style.opacity = '0';
+            setTimeout(() => {
+                scrollIndicator.style.display = 'none';
+            }, 300);
+        }
+    }
+
+    // Handle scroll events with debouncing
+    let scrollTimeout;
+    modalContent.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(checkScroll, 100);
+    });
+
+    // Smooth scroll on indicator click
+    scrollIndicator.addEventListener('click', () => {
+        const scrollDistance = modalContent.clientHeight * 0.8; // Scroll 80% of viewport height
+        modalContent.scrollBy({
+            top: scrollDistance,
+            behavior: 'smooth'
+        });
+        setTimeout(checkScroll, 500); // Check scroll position after animation
+    });
+
+    // Initial check for scroll indicator
+    setTimeout(checkScroll, 100);
+
     // Smooth Scroll for Navigation Links
     document.querySelectorAll('nav a').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
