@@ -1,69 +1,5 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Modal Elements
-    const modal = document.getElementById('education-modal');
-    const modalContent = modal.querySelector('.modal-content');
-    const closeBtn = modal.querySelector('.close-modal');
-    const educationItem = document.getElementById('education-item');
-    const scrollIndicator = modal.querySelector('.scroll-indicator');
-
-    // Open modal
-    educationItem.addEventListener('click', () => {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        checkScroll();
-    });
-
-    // Close modal
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restore scrolling
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
-
-    // Show/hide scroll indicator based on content height
-    function checkScroll() {
-        const hasScroll = modalContent.scrollHeight > modalContent.clientHeight;
-        const isAtBottom = modalContent.scrollHeight - modalContent.scrollTop <= modalContent.clientHeight + 1;
-        
-        if (hasScroll && !isAtBottom) {
-            scrollIndicator.style.opacity = '1';
-            scrollIndicator.style.display = 'block';
-        } else {
-            scrollIndicator.style.opacity = '0';
-            setTimeout(() => {
-                scrollIndicator.style.display = 'none';
-            }, 300);
-        }
-    }
-
-    // Handle scroll events with debouncing
-    let scrollTimeout;
-    modalContent.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(checkScroll, 100);
-    });
-
-    // Smooth scroll on indicator click
-    scrollIndicator.addEventListener('click', () => {
-        const scrollDistance = modalContent.clientHeight * 0.8; // Scroll 80% of viewport height
-        modalContent.scrollBy({
-            top: scrollDistance,
-            behavior: 'smooth'
-        });
-        setTimeout(checkScroll, 500); // Check scroll position after animation
-    });
-
-    // Initial check for scroll indicator
-    setTimeout(checkScroll, 100);
-
     // Smooth Scroll for Navigation Links
     document.querySelectorAll('nav a').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -76,24 +12,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Animate certification items on scroll
-    const certItems = document.querySelectorAll('.cert-item');
-    const certOptions = {
-        threshold: 0.2,
-        rootMargin: '0px'
-    };
+    // Education Modal Functionality
+    const educationItems = document.querySelectorAll('.education-item');
+    const educationModal = document.getElementById('education-modal');
+    const educationModalTitle = document.getElementById('education-modal-title');
+    const closeButtons = document.querySelectorAll('.close-modal');
 
-    const certObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+    educationItems.forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+            const eduType = item.getAttribute('data-edu');
+            const title = item.querySelector('h3').textContent;
+            
+            // Hide all detail sections first
+            document.querySelectorAll('.education-details').forEach(detail => {
+                detail.style.display = 'none';
+            });
+            
+            // Show the selected detail section
+            const detailSection = document.getElementById(`${eduType}-details`);
+            if (detailSection) {
+                detailSection.style.display = 'block';
+            }
+            
+            educationModalTitle.textContent = title;
+            educationModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Certificate Modal Functionality
+    const certLinks = document.querySelectorAll('.cert-link');
+    const certificateModal = document.getElementById('certificate-modal');
+    const certificateImage = document.getElementById('certificate-image');
+
+    certLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            certificateImage.src = link.getAttribute('href');
+            certificateModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Close modals
+    closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            document.body.style.overflow = 'auto';
+            if (certificateImage) {
+                certificateImage.src = '';
             }
         });
-    }, certOptions);
+    });
 
-    certItems.forEach(item => {
-        certObserver.observe(item);
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            if (certificateImage && e.target === certificateModal) {
+                certificateImage.src = '';
+            }
+        }
     });
 
     // Animate skill tags on scroll
@@ -134,8 +117,8 @@ function sendEmail(e) {
         to_name: 'Moinak',
         to_email: 'moinak.mondal057@gmail.com',
         from_name: name,
-        reply_to: email,  // This will set the Reply-To header
-        email: email,     // This will be shown in the email body
+        reply_to: email,
+        email: email,
         subject: subject,
         message: message,
     }).then(
