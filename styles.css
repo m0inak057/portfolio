@@ -25,24 +25,32 @@ body {
 .mobile-menu-toggle {
     display: none;
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 15px;
+    left: 15px;
     z-index: 1001;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    padding: 10px;
+    padding: 15px;
+    width: 50px;
+    height: 50px;
     background: rgba(26, 26, 26, 0.9);
-    border-radius: 8px;
+    border-radius: 12px;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.1);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-toggle span {
-    width: 25px;
+    width: 28px;
     height: 3px;
     background-color: var(--accent-color);
     margin: 3px 0;
     transition: 0.3s;
     border-radius: 2px;
+    display: block;
 }
 
 .mobile-menu-toggle.active span:nth-child(1) {
@@ -135,34 +143,37 @@ body {
     }
     
     .nav-links {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
         width: 100%;
-        padding: 0 1rem;
-        justify-content: center;
+        padding: 1.5rem;
+        align-items: center;
     }
     
     .nav-links a {
         writing-mode: horizontal-tb;
         transform: none;
-        font-size: 14px;
-        padding: 12px 16px;
+        font-size: 16px;
+        padding: 14px 24px;
         border-radius: 8px;
         transition: all 0.3s ease;
         text-align: center;
-        display: inline-block;
-        border: 1px solid transparent;
-        flex: 0 1 auto;
-        min-width: 80px;
-        white-space: nowrap;
+        display: block;
+        width: 100%;
+        max-width: 220px;
+        border: 1px solid rgba(0, 255, 136, 0.15);
+        background: rgba(0, 255, 136, 0.08);
+        color: var(--text-color);
+        font-weight: 500;
+        letter-spacing: 1px;
     }
     
     .nav-links a:hover {
-        background-color: rgba(0, 255, 136, 0.1);
+        background-color: rgba(0, 255, 136, 0.2);
         border-color: var(--accent-color);
         color: var(--accent-color);
         transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 255, 136, 0.15);
     }
     
     .main-content {
@@ -1346,6 +1357,89 @@ html, body {
     box-sizing: border-box;
 }
 
+@media (max-width: 480px) {
+    /* Improve touch targets for better mobile interaction */
+    .cert-link, .contact-btn, .submit-btn, .social-links a, .close-modal, .education-item, .mobile-menu-toggle, 
+    .nav-links a, .project-links a, .skill-tag {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+        padding: 12px;
+    }
+    
+    /* Prevent unwanted touch behaviors */
+    a, button, .cert-link, .education-item, .nav-links a, .project-links a, .skill-tag {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        user-select: none;
+    }
+    
+    /* Make form elements more touch-friendly */
+    input, textarea, button {
+        font-size: 16px;
+        padding: 12px;
+        touch-action: manipulation;
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+
+    /* Improve scrolling on mobile */
+    .main-content, .modal-content, .skills-container, .projects-grid, .cert-grid {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+
+    /* Prevent text selection during touch interactions */
+    .mobile-menu-toggle, .nav-links, .logo-text {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    /* Ensure proper spacing for touch targets */
+    .nav-links a {
+        margin: 8px 0;
+    }
+
+    .social-links a {
+        margin: 0 8px;
+    }
+
+    .project-links a, .cert-link {
+        margin: 8px;
+    }
+
+    /* Improve modal interaction on mobile */
+    .modal-content {
+        touch-action: pan-y pinch-zoom;
+    }
+
+    .close-modal {
+        padding: 15px;
+        margin: 5px;
+    }
+    
+    /* Ensure modals work properly on mobile */
+    .modal-content {
+        width: 90%;
+        max-width: 90vw;
+        padding: 15px;
+    }
+    
+    /* Make close buttons larger and easier to tap */
+    .close-modal {
+        font-size: 28px;
+        padding: 10px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
 /* Responsive Design */
 /* Consolidated Media Queries */
 @media (max-width: 768px) {
@@ -1481,6 +1575,44 @@ html, body {
         display: block;
         text-align: center;
     }
+/* Enhanced Mobile Optimization - Add these rules */
+@media (max-width: 480px) {
+    /* Improve touch targets for better mobile interaction */
+    .cert-link, .contact-btn, .submit-btn, .social-links a, .close-modal, .education-item, .mobile-menu-toggle {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+    }
+    
+    /* Prevent double-tap zoom on touch devices */
+    a, button, .cert-link, .education-item {
+        touch-action: manipulation;
+    }
+    
+    /* Make form elements more touch-friendly */
+    input, textarea, button {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        padding: 12px;
+    }
+    
+    /* Ensure modals work properly on mobile */
+    .modal-content {
+        width: 90%;
+        max-width: 90vw;
+        padding: 15px;
+    }
+    
+    /* Make close buttons larger and easier to tap */
+    .close-modal {
+        font-size: 28px;
+        padding: 10px;
+        top: 10px;
+        right: 10px;
+    }
+}
     
     /* Section spacing */
     section {
