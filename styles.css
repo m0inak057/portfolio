@@ -11,6 +11,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 body {
@@ -18,9 +29,7 @@ body {
     color: var(--text-color);
     font-family: var(--font-main);
     line-height: 1.6;
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    min-height: 100%;
 }
 
 /* Mobile Menu Toggle */
@@ -42,7 +51,6 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 255, 136, 0.1);
     touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-toggle span {
@@ -123,6 +131,15 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 480px) {
+    body {
+        position: relative;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+    }
+
     .mobile-menu-toggle {
         display: flex;
     }
@@ -134,6 +151,11 @@ body {
         backdrop-filter: blur(20px);
         box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
         padding: 80px 0 2rem 0;
+        position: fixed;
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
     }
     
     .sidebar.active {
@@ -182,9 +204,10 @@ body {
         margin-left: 0;
         padding: 1rem;
         width: 100%;
-        max-width: 100vw;
+        position: relative;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
     }
     
     .logo-text {
@@ -192,6 +215,51 @@ body {
         width: 60px;
         font-size: 2rem;
         margin-bottom: 2rem;
+    }
+
+    /* Ensure all sections are scrollable */
+    section {
+        position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+    }
+
+    /* Fix modal scrolling */
+    .modal-content {
+        position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+        max-height: 90vh;
+    }
+
+    /* Fix sidebar for mobile */
+    .sidebar {
+        position: fixed;
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+    }
+
+    /* Ensure content containers don't block scrolling */
+    .about-container,
+    .skills-container,
+    .projects-grid,
+    .experience-container,
+    .contact-container,
+    .cert-grid {
+        position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+    }
+
+    /* Fix touch targets */
+    a, button, .cert-link, .contact-btn, .submit-btn, .social-links a, .close-modal, .education-item, .mobile-menu-toggle {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
 }
 
@@ -269,8 +337,10 @@ body {
     margin-left: 100px;
     padding: 2rem;
     min-height: 100vh;
+    position: relative;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 /* Hero Section - Enhanced Responsive */
@@ -280,8 +350,10 @@ body {
     align-items: center;
     padding-left: 8rem;
     height: auto;
+    position: relative;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 @media (max-width: 768px) {
@@ -314,6 +386,7 @@ body {
         padding: 1rem;
         min-height: calc(100vh - 60px);
         height: auto;
+        position: relative;
         overflow-y: auto;
     }
     
@@ -1595,4 +1668,18 @@ html, body {
     .social-links a {
         font-size: 18px;
     }
+}
+
+/* Remove any potential scroll blockers */
+.hero,
+.about-content,
+.skill-group,
+.project-card,
+.experience-item,
+.contact-info,
+.cert-card {
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
